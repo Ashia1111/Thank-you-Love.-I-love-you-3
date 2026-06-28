@@ -1,0 +1,1241 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    overflow:hidden;
+    font-family:Arial, Helvetica, sans-serif;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:linear-gradient(135deg,#ffd6ec,#ffeaf5,#fff6fa);
+}
+
+/* ===========================
+        MAIN CONTENT
+=========================== */
+
+.hero{
+
+    position:relative;
+
+    z-index:100;
+
+    text-align:center;
+
+    animation:fadeIn 2s;
+
+}
+
+/* ===========================
+          PICTURE
+=========================== */
+
+.picture{
+
+    width:700px;
+
+    max-width:95vw;
+
+    border-radius:30px;
+
+    box-shadow:
+        0 0 25px rgba(255,105,180,.35),
+        0 0 60px rgba(255,105,180,.25);
+
+    animation:float 4s ease-in-out infinite;
+
+}
+
+/* ===========================
+            TITLE
+=========================== */
+
+h1{
+
+    margin-top:25px;
+
+    font-size:55px;
+
+    color:#ff2f74;
+
+    text-shadow:
+    0 0 10px rgba(255,105,180,.5);
+
+}
+
+/* ===========================
+        TYPING TEXT
+=========================== */
+
+#typing{
+
+    margin-top:20px;
+
+    font-size:28px;
+
+    font-weight:bold;
+
+    color:#444;
+
+    height:45px;
+
+}
+
+/* ===========================
+           BUTTON
+=========================== */
+
+button{
+
+    margin-top:30px;
+
+    padding:16px 45px;
+
+    border:none;
+
+    border-radius:50px;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    color:white;
+
+    background:#ff4f81;
+
+    transition:.3s;
+
+}
+
+button:hover{
+
+    transform:scale(1.08);
+
+    background:#ff2f74;
+
+    box-shadow:0 0 25px hotpink;
+
+}
+
+/* ==========================================
+            ENVELOPE OVERLAY
+========================================== */
+
+#overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:rgba(0,0,0,.45);
+
+    backdrop-filter:blur(8px);
+
+    z-index:999;
+
+    animation:fadeOverlay .4s ease;
+
+}
+
+
+/* ==========================================
+            ENVELOPE CONTAINER
+========================================== */
+.envelope {
+    position: relative;
+    width: 600px; /* Inayos ang width para mas maganda ang proportion */
+    height: 400px; /* Naging 400px para mas compact at fit sa screen */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    perspective: 1500px; /* Para sa 3D rotate effect */
+    transform-style: preserve-3d;
+    animation: envelopeFloat 5s ease-in-out infinite;
+    filter: drop-shadow(0 20px 35px rgba(0,0,0,.15));
+    transition: .4s;
+}
+
+.envelope:hover {
+    transform: translateY(-6px);
+}
+
+/* ==========================================
+              LETTER (SULAT)
+========================================== */
+/* ==========================================
+              LETTER (UPDATED)
+========================================== */
+.letter {
+    position: absolute;
+    width: 90%;
+    height: 380px; /* Eksaktong sukat para maganda ang kapit sa envelope */
+    left: 5%;
+    bottom: 15px;
+    background: linear-gradient(to bottom, #fffefe, #fff7fb); /* Premium paper background */
+    border: 1px solid rgba(255,170,200,.4);
+    border-radius: 15px 15px 8px 8px;
+    padding: 30px 25px;
+    text-align: center;
+    z-index: 2;
+    
+    /* Heto ang sikreto para magkasya lahat ng text */
+    overflow-y: auto; 
+    scrollbar-width: none; /* Tinatago ang scrollbar sa Firefox */
+    
+    transition: transform 1.2s cubic-bezier(.22, 1, .36, 1), z-index 0.6s step-end;
+    box-shadow: 0 25px 50px rgba(0,0,0,.18), 0 10px 20px rgba(255,105,180,.15);
+}
+
+/* Tinatago ang scrollbar sa Chrome, Safari, at Edge para malinis */
+.letter::-webkit-scrollbar {
+    display: none;
+}
+
+/* Open Animation - Dito siya lilipad pataas */
+.envelope.open .letter {
+    transform: translateY(-260px); /* Binabaan ko ng kaunti ang lipad para kita pa rin ang "To My Dearest Love" */
+    z-index: 20 !important; /* Siguradong lulutang sa pinakaharap ng lahat */
+}
+
+/* LETTER CONTENT */
+.letter h2 {
+    color: #ff2f74;
+    font-size: 32px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(255,105,180,.15);
+}
+
+.heart-icon {
+    font-size: 38px;
+    margin-bottom: 12px;
+    animation: heartBeat 1.5s infinite;
+}
+
+.letter p {
+    color: #555;
+    font-size: 18px;
+    line-height: 1.7;
+    font-family: "Georgia", serif;
+    text-align: center;
+}
+
+/* ==========================================
+          ENVELOPE PANELS & FOLDS
+========================================== */
+
+/* 1. Likod na pader ng envelope (Nasa pinakailalim) */
+.back {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #ffc1d8, #ff98be);
+    border-radius: 0 0 18px 18px;
+    z-index: 1; /* Pinakamababang layer */
+}
+
+/* 2. Kaliwang tupi sa harap */
+.left {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50%;
+    height: 100%;
+    background: #ff8db7;
+    clip-path: polygon(0 0, 0% 100%, 100% 100%);
+    z-index: 4; /* Takip sa sulat habang nakasara */
+}
+
+/* 3. Kanang tupi sa harap */
+.right {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 50%;
+    height: 100%;
+    background: #ff8db7;
+    clip-path: polygon(100% 0, 0% 100%, 100% 100%);
+    z-index: 4; /* Takip sa sulat habang nakasara */
+}
+
+/* 4. Babang tupi sa harap */
+.bottom {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: #ff73a6;
+    clip-path: polygon(0% 100%, 50% 50%, 100% 100%);
+    z-index: 5; /* Nasa ibabaw ng left at right folds */
+}
+
+/* ==========================================
+            TOP FLAP (TATSULOK SA TAAS)
+========================================== */
+.flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%; /* Kalahati ng taas ng envelope */
+    background: #ff79ab;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top; /* Tupiin mula sa pinakataas */
+    transition: transform 0.8s ease, z-index 0.6s ease;
+    z-index: 6; /* Tatakpan nito ang buong envelope kapag nakasara */
+}
+
+/* Open Animation para sa Flap */
+.envelope.open .flap {
+    transform: rotateX(180deg); /* Iikot pataas */
+    z-index: 3; /* Bababa ang layer sa likod ng sulat para hindi harang sa papel */
+}
+
+/* ==========================================
+            WAX SEAL (PUSO SA GITNA)
+========================================== */
+.seal {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ff6b9d, #ff2f74);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 26px;
+    box-shadow: 0 6px 15px rgba(0,0,0,.2);
+    z-index: 8; /* Pinakaibabaw sa lahat para pwedeng i-click */
+    cursor: pointer;
+    transition: .5s;
+    animation: sealPulse 2s infinite;
+}
+
+.envelope.open .seal {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0.3);
+}
+
+
+/* ==========================================
+        PAPER SLIDE
+========================================== */
+
+.envelope.open .letter {
+    transform: translateY(-290px); /* Tasan natin ng kaunti para lumabas ang buong card */
+    z-index: 10; /* Lalabas sa pinakaharap ng LAHAT ng folds kapag bukas na */
+    box-shadow: 0 25px 50px rgba(0,0,0,.15), 0 10px 20px rgba(255,105,180,.1);
+}
+
+/* ==========================================
+        LETTER SHADOW
+========================================== */
+
+.letter{
+
+    box-shadow:
+        0 25px 50px rgba(0,0,0,.18),
+        0 10px 20px rgba(255,105,180,.15);
+
+}
+
+/* ==========================================
+        LETTER ANIMATION
+========================================== */
+
+.envelope.open .letter{
+
+    transform:translateY(-180px);
+
+    transition:1.2s cubic-bezier(.22,1,.36,1);
+
+}
+
+/* ==========================================
+        FLAP ANIMATION
+========================================== */
+
+.envelope.open .flap{
+
+    transform:rotateX(180deg);
+
+    transition:1s ease;
+
+}
+
+/* ==========================================
+        ENVELOPE SHADOW
+========================================== */
+
+.envelope{
+
+    filter:drop-shadow(0 20px 35px rgba(0,0,0,.18));
+
+}
+
+/* ==========================================
+        WAX SEAL
+========================================== */
+
+.seal{
+
+    animation:sealPulse 2s infinite;
+
+}
+
+@keyframes sealPulse{
+
+    0%{
+
+        transform:translateX(-50%) scale(1);
+
+    }
+
+    50%{
+
+        transform:translateX(-50%) scale(1.08);
+
+    }
+
+    100%{
+
+        transform:translateX(-50%) scale(1);
+
+    }
+
+}
+
+/* ==========================================
+        HEART
+========================================== */
+
+.heart-icon{
+
+    animation:heartBeat 1.5s infinite;
+
+}
+
+@keyframes heartBeat{
+
+    0%{
+
+        transform:scale(1);
+
+    }
+
+    20%{
+
+        transform:scale(1.18);
+
+    }
+
+    40%{
+
+        transform:scale(.95);
+
+    }
+
+    60%{
+
+        transform:scale(1.15);
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+    }
+
+}
+
+/* ==========================================
+        PAPER GLOW
+========================================== */
+
+.letter::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:18px;
+
+    box-shadow:
+        inset 0 0 30px rgba(255,255,255,.7);
+
+    pointer-events:none;
+
+}
+
+/* ==========================================
+        FLAP SHADOW
+========================================== */
+
+.flap{
+
+    box-shadow:
+
+        inset 0 -10px 15px rgba(255,255,255,.15),
+
+        0 10px 20px rgba(0,0,0,.15);
+
+}
+
+/* ==========================================
+        ENVELOPE HOVER
+========================================== */
+
+.envelope{
+
+    transition:.4s;
+
+}
+
+.envelope:hover{
+
+    transform:translateY(-6px);
+
+}
+
+/* ==========================================
+        LETTER TITLE
+========================================== */
+
+.letter h2{
+
+    letter-spacing:1px;
+
+}
+
+/* ==========================================
+        LETTER TEXT
+========================================== */
+
+.letter p{
+
+    text-align:center;
+
+}
+
+/* ==========================================
+        PREMIUM FINISH
+========================================== */
+
+/* 3D Perspective */
+
+#overlay{
+
+    perspective:1600px;
+
+}
+
+/* Envelope Perspective */
+
+.envelope{
+
+    transform-style:preserve-3d;
+
+    animation:envelopeFloat 5s ease-in-out infinite;
+
+}
+
+/* Floating Animation */
+
+@keyframes envelopeFloat{
+
+    0%{
+
+        transform:translateY(0px);
+
+    }
+
+    50%{
+
+        transform:translateY(-8px);
+
+    }
+
+    100%{
+
+        transform:translateY(0px);
+
+    }
+
+}
+
+/* Envelope Shine */
+
+.envelope::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:-120%;
+
+    width:80px;
+
+    height:100%;
+
+    background:linear-gradient(
+
+        90deg,
+
+        transparent,
+
+        rgba(255,255,255,.45),
+
+        transparent
+
+    );
+
+    transform:skewX(-20deg);
+
+    animation:shine 4s infinite;
+
+    z-index:20;
+
+    pointer-events:none;
+
+}
+
+@keyframes shine{
+
+    0%{
+
+        left:-120%;
+
+    }
+
+    100%{
+
+        left:130%;
+
+    }
+
+}
+
+/* Premium Paper */
+
+.letter{
+
+    background:
+
+        linear-gradient(
+
+            to bottom,
+
+            #fffefe,
+
+            #fff7fb
+
+        );
+
+}
+
+/* Paper Border */
+
+.letter{
+
+    border:1px solid rgba(255,170,200,.4);
+
+}
+
+/* Letter Title */
+
+.letter h2{
+
+    text-shadow:
+
+        0 0 10px rgba(255,105,180,.18);
+
+}
+
+/* Paragraph */
+
+.letter p{
+
+    font-family:"Georgia",serif;
+
+}
+
+/* Seal */
+
+.seal{
+
+    cursor:pointer;
+
+}
+
+/* Overlay Fade */
+
+#overlay{
+
+    transition:.35s;
+
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.envelope{
+
+    width:94vw;
+
+    height:320px;
+
+}
+
+.back{
+
+    position:absolute;
+
+    bottom:0;
+
+    width:100%;
+
+    height:180px;
+
+    background:#ffb3cb;
+
+    border-radius:0 0 18px 18px;
+
+    z-index:1;
+
+}
+
+.left{
+
+    position:absolute;
+
+    left:0;
+
+    bottom:0;
+
+    width:50%;
+
+    height:180px;
+
+    background:#ff93bb;
+
+    clip-path:polygon(0 100%,100% 0,100% 100%);
+
+    z-index:4;
+
+}
+
+.right{
+
+    position:absolute;
+
+    right:0;
+
+    bottom:0;
+
+    width:50%;
+
+    height:180px;
+
+    background:#ff93bb;
+
+    clip-path:polygon(0 0,100% 100%,0 100%);
+
+    z-index:4;
+
+}
+
+.bottom{
+
+    position:absolute;
+
+    bottom:0;
+
+    width:100%;
+
+    height:180px;
+
+    background:#ff6ea3;
+
+    clip-path:polygon(50% 15%,100% 100%,0 100%);
+
+    z-index:5;
+
+}
+
+.flap{
+
+    height:165px;
+
+}
+
+.letter{
+
+    height:250px;
+
+    bottom:35px;
+
+    padding:22px;
+
+}
+
+.letter h2{
+
+    font-size:26px;
+
+}
+
+.heart-icon{
+
+    font-size:34px;
+
+}
+
+.letter p{
+
+    font-size:17px;
+
+    line-height:1.7;
+
+}
+
+.seal{
+
+    width:55px;
+
+    height:55px;
+
+    top:132px;
+
+    font-size:22px;
+
+}
+
+}
+
+/* Hide Scrollbar */
+
+.letter::-webkit-scrollbar{
+
+    display:none;
+
+}
+
+.letter{
+
+    scrollbar-width:none;
+
+}
+
+/* Better Selection */
+
+::selection{
+
+    background:#ff7fb3;
+
+    color:white;
+
+}
+
+/* ===========================
+      PULSE
+=========================== */
+
+@keyframes pulse{
+
+0%{
+
+transform:scale(1);
+
+}
+
+50%{
+
+transform:scale(1.12);
+
+}
+
+100%{
+
+transform:scale(1);
+
+}
+
+}
+
+/* ===========================
+      MOBILE
+=========================== */
+
+@media(max-width:768px){
+
+.envelope{
+
+    width:95vw;
+
+    height:70vh;
+
+}
+
+.envelope-back,
+.left-fold,
+.right-fold,
+.bottom-fold{
+
+    height:180px;
+
+}
+
+.top-fold{
+
+    top:90px;
+
+    height:150px;
+
+}
+
+.letter{
+
+    width:90%;
+
+    height:320px;
+
+    left:5%;
+
+    bottom:70px;
+
+    padding:25px;
+
+}
+
+.letter h2{
+
+    font-size:28px;
+
+}
+
+.heart-icon{
+
+    font-size:36px;
+
+}
+
+.letter p{
+
+    font-size:18px;
+
+    line-height:1.7;
+
+}
+
+}
+
+/* ===========================
+      FLOATING HEARTS
+=========================== */
+
+#hearts{
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:100%;
+
+    overflow:hidden;
+
+    pointer-events:none;
+
+    z-index:1;
+
+}
+
+.heart{
+
+    position:absolute;
+
+    color:#ff4f81;
+
+    animation:rise linear forwards;
+
+    opacity:.9;
+
+}
+
+/* ===========================
+       HEART ANIMATION
+=========================== */
+
+@keyframes rise{
+
+    0%{
+
+        transform:
+        translateY(100vh)
+        scale(.5)
+        rotate(0deg);
+
+        opacity:0;
+
+    }
+
+    20%{
+
+        opacity:1;
+
+    }
+
+    100%{
+
+        transform:
+        translateY(-120vh)
+        scale(1.5)
+        rotate(360deg);
+
+        opacity:0;
+
+    }
+
+}
+
+/* ===========================
+      FLOATING PICTURE
+=========================== */
+
+@keyframes float{
+
+    0%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-12px);
+
+    }
+
+    100%{
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ===========================
+         FADE IN
+=========================== */
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ===========================
+        MOBILE
+=========================== */
+
+.left-fold{
+
+    position:absolute;
+
+    left:0;
+
+    bottom:0;
+
+    width:50%;
+
+    height:48%;
+
+    background:#ff74a8;
+
+    clip-path:polygon(0 100%,100% 0,100% 100%);
+
+    z-index:5;
+
+}
+
+.right-fold{
+
+    position:absolute;
+
+    right:0;
+
+    bottom:0;
+
+    width:50%;
+
+    height:48%;
+
+    background:#ff74a8;
+
+    clip-path:polygon(0 0,100% 100%,0 100%);
+
+    z-index:5;
+
+}
+
+.bottom-fold{
+
+    position:absolute;
+
+    bottom:0;
+
+    width:100%;
+
+    height:52%;
+
+    background:#ff8ab8;
+
+    clip-path:polygon(50% 0,100% 100%,0 100%);
+
+    z-index:6;
+
+}
+
+.top-fold{
+
+    position:absolute;
+
+    top:0;
+
+    width:100%;
+
+    height:52%;
+
+    background:#ff5d95;
+
+    clip-path:polygon(0 0,100% 0,50% 100%);
+
+    transform-origin:top;
+
+    transition:1s;
+
+    z-index:10;
+
+}
+
+.heart-icon{
+
+    font-size:55px;
+
+    margin-bottom:25px;
+
+    animation:pulse 1.8s infinite;
+
+}
+
+@keyframes pulse{
+
+    0%{
+
+        transform:scale(1);
+
+    }
+
+    50%{
+
+        transform:scale(1.1);
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+    }
+
+}
+
+@media(max-width:768px){
+
+.picture{
+
+    width:90%;
+
+}
+
+h1{
+
+    font-size:38px;
+
+}
+
+#typing{
+
+    font-size:20px;
+
+}
+
+button{
+
+    font-size:18px;
+
+    padding:14px 35px;
+
+}
+
+.envelope{
+
+    width:90%;
+
+    height:240px;
+
+}
+
+.letter{
+
+    padding:18px;
+
+}
+
+.letter p{
+
+    font-size:16px;
+
+}
+
+}
